@@ -1,5 +1,6 @@
-const Joi = require("Joi");
 const { Schema } = require('mongoose');
+const Joi = require("Joi");
+
 
 const addSchema = Joi.object({
   name: Joi.string().required(),
@@ -29,8 +30,16 @@ const updateFavoriteSchema = Joi.object({
   favorite: Joi.boolean().required(),
 })
 
-module.exports = {
+const contactSchemas = {
   addSchema,
   contactSchema,
   updateFavoriteSchema,
 };
+
+module.exports = contactSchemas;
+
+// module.exports = {
+//   addSchema,
+//   contactSchema,
+//   updateFavoriteSchema,
+// };
