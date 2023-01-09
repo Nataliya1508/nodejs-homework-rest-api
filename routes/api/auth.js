@@ -5,6 +5,7 @@ const {userSchemas} = require("../../schemas")
 
 const { authenticate } = require("../../middlewares/authenticate");
 const { validateBody } = require("../../middlewares/validateBody");
+const { upload } = require("../../middlewares/upload");
 // const {joiRegisterSchema, joiLoginSchema} = require("../../schemas")
 
 const router = express.Router();
@@ -15,11 +16,11 @@ router.post('/login', validateBody(userSchemas.joiLoginSchema), controllers.logi
 
 router.get('/current', authenticate, controllers.getCurrent);
 
-router.get('/logout', authenticate, controllers.logout);
+router.post('/logout', authenticate, controllers.logout);
 
 router.patch('./subscription', authenticate, validateBody(userSchemas.subscriptionSchema), controllers.subscription);
 
-
+router.patch('/avatars', authenticate, upload.single("avatar"), controllers.updateAvatar);
 
 
 
