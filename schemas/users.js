@@ -2,6 +2,8 @@ const Joi = require("Joi");
 const { Schema } = require("mongoose");
 
 
+
+
 const emailRegexp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 const joiRegisterSchema = Joi.object({
@@ -15,6 +17,11 @@ const joiLoginSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
   password: Joi.string().min(6).required(),
   owner: Joi.string().required(),
+});
+
+const joiEmailSchema = Joi.object({
+  email: Joi.string().pattern(emailRegexp).required(),
+ 
 });
 
 
@@ -49,12 +56,23 @@ const userSchema = new Schema(
         default: null,
     },
     owner: {
+      // type: String,
         type: SchemaTypes.ObjectId,
         ref: 'user',
     },
     avatarURL: {
       type: String,
       required: true,
+    },
+    
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+
+    verificationToken: {
+      type: String,
+    required: [true, 'Verify token is required'],
     },
 
 }, { versionKey: false, timestamps: true });
@@ -65,7 +83,8 @@ const userSchemas = {
   joiRegisterSchema,
   userSchema,
   joiLoginSchema,
+  joiEmailSchema,
   subscriptionSchema,
-}
+};
 
 module.exports = userSchemas;
