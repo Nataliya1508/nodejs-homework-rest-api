@@ -1,13 +1,29 @@
-const express = require('express')
-const logger = require('morgan')
-const cors = require('cors')
+const express = require('express');
+const logger = require('morgan');
+const cors = require('cors');
+const sgMail = require("@sendgrid/mail");
 
-require('dotenv').config()
+require('dotenv').config();
 
-const authRouter = require('./routes/api/auth')
-const contactsRouter = require('./routes/api/contacts')
+const { SENGRID_API_KEY } = process.env;
 
-const app = express()
+sgMail.setApiKey(SENGRID_API_KEY);
+
+const email = {
+  to: "yikoka6339@webonoid.com",
+  from: "Natalykhoroshun1508@gmail.com",
+  subject: "Veryfy email",
+  html: `<p>Veryfy email</p>`
+};
+
+sgMail.send(email)
+  .then(() => console.log("Email send succes"))
+  .catch(error => console.log(error.message))
+
+const authRouter = require('./routes/api/auth');
+const contactsRouter = require('./routes/api/contacts');
+
+const app = express();
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
 
